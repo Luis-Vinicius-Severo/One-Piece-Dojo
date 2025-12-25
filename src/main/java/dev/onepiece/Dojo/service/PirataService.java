@@ -6,6 +6,9 @@ import dev.onepiece.Dojo.repositories.PirataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class PirataService {
@@ -29,4 +32,18 @@ public class PirataService {
         );
 
     }
+
+    public List<PirataDTO> buscarPiratas(){
+        return pirataRepository.findAll()
+                .stream()
+                .map(pirata -> new PirataDTO(
+                        pirata.getNome(),
+                        pirata.getTripulacao(),
+                        pirata.getRaca(),
+                        pirata.getStatus()
+                ))
+                .collect(Collectors.toList());
+
+    }
+
 }
