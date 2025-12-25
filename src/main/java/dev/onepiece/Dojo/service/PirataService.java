@@ -4,9 +4,12 @@ import dev.onepiece.Dojo.dto.PirataDTO;
 import dev.onepiece.Dojo.entities.Pirata;
 import dev.onepiece.Dojo.repositories.PirataRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -44,6 +47,18 @@ public class PirataService {
                 ))
                 .collect(Collectors.toList());
 
+    }
+
+    public List<PirataDTO> buscarPiratasPorId(UUID id){
+        return pirataRepository.findById(id)
+                .stream()
+                .map(pirata -> new PirataDTO(
+                        pirata.getNome(),
+                        pirata.getTripulacao(),
+                        pirata.getRaca(),
+                        pirata.getStatus()
+                ))
+                .collect(Collectors.toList());
     }
 
 }

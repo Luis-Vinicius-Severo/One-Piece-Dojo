@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RequestMapping("/piratas")
@@ -27,5 +28,11 @@ public class PirataController {
     public ResponseEntity<List<PirataDTO>> buscarPiratas(){
         var piratas = pirataService.buscarPiratas();
         return ResponseEntity.ok(piratas);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<PirataDTO>> buscarPiratasPorId(@PathVariable UUID id){
+        var pirata = pirataService.buscarPiratasPorId(id);
+        return ResponseEntity.ok(pirata);
     }
 }
