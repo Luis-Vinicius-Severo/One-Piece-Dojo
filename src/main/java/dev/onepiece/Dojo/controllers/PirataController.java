@@ -35,4 +35,10 @@ public class PirataController {
         var pirata = pirataService.buscarPiratasPorId(id);
         return ResponseEntity.ok(pirata);
     }
+
+    @GetMapping("/raca/{raca}")
+    public ResponseEntity<List<PirataDTO>> buscarPirataPorRaca(@PathVariable String raca){
+        var pirata = pirataService.buscarPirataPorRaca(raca);
+        return  ResponseEntity.ok(pirata);
+    }
 }

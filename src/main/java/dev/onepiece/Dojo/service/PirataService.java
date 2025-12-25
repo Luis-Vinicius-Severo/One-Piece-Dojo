@@ -61,4 +61,16 @@ public class PirataService {
                 .collect(Collectors.toList());
     }
 
+    public List<PirataDTO> buscarPirataPorRaca(String raca){
+        return pirataRepository.findByRacaIgnoreCase(raca)
+                .stream()
+                .map(pirata -> new PirataDTO(
+                        pirata.getNome(),
+                        pirata.getTripulacao(),
+                        pirata.getRaca(),
+                        pirata.getStatus()
+                ))
+                .collect(Collectors.toList());
+    }
+
 }
