@@ -4,9 +4,7 @@ import dev.onepiece.Dojo.dto.PirataDTO;
 import dev.onepiece.Dojo.entities.Pirata;
 import dev.onepiece.Dojo.repositories.PirataRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.UUID;
@@ -71,6 +69,12 @@ public class PirataService {
                         pirata.getStatus()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public void deletarPirata(UUID id){
+        var pirata = pirataRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pirata com ID " + id + " não encontrado"));
+        pirataRepository.deleteById(id);
     }
 
 }

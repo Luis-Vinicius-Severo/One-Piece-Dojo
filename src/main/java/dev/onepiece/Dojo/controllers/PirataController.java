@@ -30,7 +30,7 @@ public class PirataController {
         return ResponseEntity.ok(piratas);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<List<PirataDTO>> buscarPiratasPorId(@PathVariable UUID id){
         var pirata = pirataService.buscarPiratasPorId(id);
         return ResponseEntity.ok(pirata);
@@ -40,5 +40,11 @@ public class PirataController {
     public ResponseEntity<List<PirataDTO>> buscarPirataPorRaca(@PathVariable String raca){
         var pirata = pirataService.buscarPirataPorRaca(raca);
         return  ResponseEntity.ok(pirata);
+    }
+
+    @DeleteMapping("/id/{id}")
+    public  ResponseEntity<List<PirataDTO>> deletarPirata(@PathVariable UUID id){
+        pirataService.deletarPirata(id);
+        return ResponseEntity.noContent().build();
     }
 }
