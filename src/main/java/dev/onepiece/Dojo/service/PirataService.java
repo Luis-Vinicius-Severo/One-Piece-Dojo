@@ -72,9 +72,9 @@ public class PirataService {
     }
 
     public void deletarPirata(UUID id){
-        var pirata = pirataRepository.findById(id)
+        Pirata pirata = pirataRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pirata com ID " + id + " não encontrado"));
-        pirataRepository.deleteById(id);
+        pirataRepository.delete(pirata);
     }
 
 }
