@@ -43,8 +43,14 @@ public class PirataController {
     }
 
     @DeleteMapping("/id/{id}")
-    public  ResponseEntity<List<PirataDTO>> deletarPirata(@PathVariable UUID id){
+    public ResponseEntity<List<PirataDTO>> deletarPirata(@PathVariable UUID id){
         pirataService.deletarPirata(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PirataDTO> atualizarPirata(@PathVariable UUID id, @RequestBody @Valid PirataDTO pirataDTO){
+        PirataDTO atualizar = pirataService.atualizarPirata(id,pirataDTO);
+        return ResponseEntity.ok(atualizar);
     }
 }

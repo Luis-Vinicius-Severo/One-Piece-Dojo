@@ -77,4 +77,24 @@ public class PirataService {
         pirataRepository.delete(pirata);
     }
 
+    public PirataDTO atualizarPirata(UUID id, PirataDTO pirataDTO){
+        Pirata pirata = pirataRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Pirata com ID " + id + " não encontrado"));
+
+        pirata.setNome(pirataDTO.nome());
+        pirata.setTripulacao(pirataDTO.tripulacao());
+        pirata.setRaca(pirataDTO.raca());
+        pirata.setStatus(pirataDTO.status());
+
+        Pirata atualizar = pirataRepository.save(pirata);
+
+        return new PirataDTO(
+                atualizar.getNome(),
+                atualizar.getTripulacao(),
+                atualizar.getRaca(),
+                atualizar.getStatus()
+        );
+
+    }
+
 }
