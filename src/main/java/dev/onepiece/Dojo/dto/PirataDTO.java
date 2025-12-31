@@ -1,9 +1,10 @@
 package dev.onepiece.Dojo.dto;
 
 
-import dev.onepiece.Dojo.entities.StatusPirata;
+import dev.onepiece.Dojo.entities.Pirata;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 
 public record PirataDTO(
             @NotBlank(message = "O nome é obrigatório")
@@ -13,8 +14,8 @@ public record PirataDTO(
             String tripulacao,
 
             @NotBlank(message = "A raça é obrigatória")
-            String raca,
+            Pirata.Raca raca,
 
             @NotNull
-            StatusPirata status
+            Pirata.StatusPirata status
     ) {}

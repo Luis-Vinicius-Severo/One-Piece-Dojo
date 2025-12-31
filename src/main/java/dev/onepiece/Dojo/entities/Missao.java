@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,10 +17,13 @@ public class Missao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @Column(nullable = false)
-    private String classificacao;
+    private Classificacao classificacao;
+
     @Column(nullable = false)
-    private String tipoMissao;
+    private TipoMissao tipoMissao;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusMissao status;
@@ -29,4 +31,25 @@ public class Missao {
     @ManyToOne
     @JoinColumn(name = "pirata_id")
     private Pirata pirata;
+
+
+public enum TipoMissao {
+    EXPLORAÇÃO,
+    BATALHA_NAVAL,
+    SAQUE
+}
+
+public enum Classificacao {
+    A,
+    B,
+    C,
+    D,
+    S
+}
+
+public enum StatusMissao {
+    CONCLUIDO,
+    EM_ANDAMENTO,
+}
+
 }

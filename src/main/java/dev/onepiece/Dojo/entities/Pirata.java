@@ -29,7 +29,7 @@ public class Pirata {
     private String tripulacao;
 
     @Column(nullable = false)
-    private String raca;
+    private Raca raca;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -37,4 +37,19 @@ public class Pirata {
 
     @OneToMany(mappedBy = "pirata")
     private List<Missao> missoes = new ArrayList<>() ;
+
+
+public enum StatusPirata {
+    ATIVO,
+    CAPTURADO
+ }
+
+public enum Raca {
+    Humano,
+    Ciborgue,
+    Mink,
+    Anão,
+    Tritão
+}
+
 }
