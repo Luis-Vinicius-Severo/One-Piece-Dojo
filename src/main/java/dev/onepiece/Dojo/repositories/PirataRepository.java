@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface PirataRepository extends JpaRepository<Pirata, UUID> {
-    List<Pirata> findByRacaIgnoreCase(String raca);
+public interface PirataRepository extends JpaRepository<Pirata, Long> {
+    List<Pirata> findByRaca(Pirata.Raca raca);
+
 }

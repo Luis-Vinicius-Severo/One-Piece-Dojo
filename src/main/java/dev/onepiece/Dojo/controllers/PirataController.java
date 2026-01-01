@@ -1,6 +1,8 @@
 package dev.onepiece.Dojo.controllers;
 
-import dev.onepiece.Dojo.dto.PirataDTO;
+import dev.onepiece.Dojo.dto.PirataCreateDTO;
+import dev.onepiece.Dojo.dto.PirataResponseDTO;
+import dev.onepiece.Dojo.entities.Pirata;
 import dev.onepiece.Dojo.service.PirataService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RequestMapping("/piratas")
@@ -19,38 +20,38 @@ public class PirataController {
     private final PirataService pirataService;
 
     @PostMapping
-    public ResponseEntity<PirataDTO> criarPirata(@RequestBody @Valid PirataDTO pirataDTO){
-        PirataDTO criar = pirataService.criarPirata(pirataDTO);
+    public ResponseEntity<PirataCreateDTO> criarPirata(@RequestBody @Valid PirataCreateDTO pirataCreateDTO){
+        PirataCreateDTO criar = pirataService.criarPirata(pirataCreateDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(criar);
     }
 
     @GetMapping
-    public ResponseEntity<List<PirataDTO>> buscarPiratas(){
+    public ResponseEntity<List<PirataResponseDTO>> buscarPiratas(){
         var piratas = pirataService.buscarPiratas();
         return ResponseEntity.ok(piratas);
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<List<PirataDTO>> buscarPiratasPorId(@PathVariable UUID id){
+    public ResponseEntity<List<PirataResponseDTO>> buscarPiratasPorId(@PathVariable Long id){
         var pirata = pirataService.buscarPiratasPorId(id);
         return ResponseEntity.ok(pirata);
     }
 
     @GetMapping("/raca/{raca}")
-    public ResponseEntity<List<PirataDTO>> buscarPirataPorRaca(@PathVariable String raca){
+    public ResponseEntity<List<PirataResponseDTO>> buscarPirataPorRaca(@PathVariable Pirata.Raca raca){
         var pirata = pirataService.buscarPirataPorRaca(raca);
-        return  ResponseEntity.ok(pirata);
+        return ResponseEntity.ok(pirata);
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<List<PirataDTO>> deletarPirata(@PathVariable UUID id){
+    public ResponseEntity<List<PirataResponseDTO>> deletarPirata(@PathVariable Long id){
         pirataService.deletarPirata(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PirataDTO> atualizarPirata(@PathVariable UUID id, @RequestBody @Valid PirataDTO pirataDTO){
-        PirataDTO atualizar = pirataService.atualizarPirata(id,pirataDTO);
+    public ResponseEntity<PirataResponseDTO> atualizarPirata(@PathVariable Long id, @RequestBody @Valid PirataCreateDTO pirataCreateDTO){
+        PirataResponseDTO atualizar = pirataService.atualizarPirata(id,pirataCreateDTO);
         return ResponseEntity.ok(atualizar);
     }
 }

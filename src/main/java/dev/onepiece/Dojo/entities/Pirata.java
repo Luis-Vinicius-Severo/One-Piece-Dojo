@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 @Table(name = "tbpirata")
@@ -20,7 +19,7 @@ import java.util.UUID;
 public class Pirata {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String nome;
@@ -28,6 +27,7 @@ public class Pirata {
     @Column(nullable = false)
     private String tripulacao;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Raca raca;
 

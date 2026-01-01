@@ -1,13 +1,13 @@
 package dev.onepiece.Dojo.service;
 
-import dev.onepiece.Dojo.dto.PirataDTO;
+import dev.onepiece.Dojo.dto.PirataCreateDTO;
+import dev.onepiece.Dojo.dto.PirataResponseDTO;
 import dev.onepiece.Dojo.entities.Pirata;
 import dev.onepiece.Dojo.repositories.PirataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -16,16 +16,16 @@ public class PirataService {
 
     private final PirataRepository pirataRepository;
 
-    public PirataDTO criarPirata(PirataDTO pirataDTO){
+    public PirataCreateDTO criarPirata(PirataCreateDTO pirataCreateDTO){
         Pirata pirata = new Pirata();
-        pirata.setNome(pirataDTO.nome());
-        pirata.setTripulacao(pirataDTO.tripulacao());
-        pirata.setRaca(pirataDTO.raca());
-        pirata.setStatus(pirataDTO.status());
+        pirata.setNome(pirataCreateDTO.nome());
+        pirata.setTripulacao(pirataCreateDTO.tripulacao());
+        pirata.setRaca(pirataCreateDTO.raca());
+        pirata.setStatus(pirataCreateDTO.status());
 
         Pirata salvarPirata = pirataRepository.save(pirata);
 
-        return new PirataDTO(
+        return new PirataCreateDTO(
                 salvarPirata.getNome(),
                 salvarPirata.getTripulacao(),
                 salvarPirata.getRaca(),
@@ -34,10 +34,11 @@ public class PirataService {
 
     }
 
-    public List<PirataDTO> buscarPiratas(){
+    public List<PirataResponseDTO> buscarPiratas(){
         return pirataRepository.findAll()
                 .stream()
-                .map(pirata -> new PirataDTO(
+                .map(pirata -> new PirataResponseDTO(
+                        pirata.getId(),
                         pirata.getNome(),
                         pirata.getTripulacao(),
                         pirata.getRaca(),
@@ -47,10 +48,11 @@ public class PirataService {
 
     }
 
-    public List<PirataDTO> buscarPiratasPorId(UUID id){
+    public List<PirataResponseDTO> buscarPiratasPorId(Long id){
         return pirataRepository.findById(id)
                 .stream()
-                .map(pirata -> new PirataDTO(
+                .map(pirata -> new PirataResponseDTO(
+                        pirata.getId(),
                         pirata.getNome(),
                         pirata.getTripulacao(),
                         pirata.getRaca(),
@@ -59,10 +61,11 @@ public class PirataService {
                 .collect(Collectors.toList());
     }
 
-    public List<PirataDTO> buscarPirataPorRaca(String raca){
-        return pirataRepository.findByRacaIgnoreCase(raca)
+    public List<PirataResponseDTO> buscarPirataPorRaca(Pirata.Raca raca){
+        return pirataRepository.findByRaca(raca)
                 .stream()
-                .map(pirata -> new PirataDTO(
+                .map(pirata -> new PirataResponseDTO(
+                        pirata.getId(),
                         pirata.getNome(),
                         pirata.getTripulacao(),
                         pirata.getRaca(),
@@ -71,24 +74,25 @@ public class PirataService {
                 .collect(Collectors.toList());
     }
 
-    public void deletarPirata(UUID id){
+    public void deletarPirata(Long id){
         Pirata pirata = pirataRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pirata com ID " + id + " não encontrado"));
         pirataRepository.delete(pirata);
     }
 
-    public PirataDTO atualizarPirata(UUID id, PirataDTO pirataDTO){
+    public PirataResponseDTO atualizarPirata(Long id, PirataCreateDTO pirataCreateDTO){
         Pirata pirata = pirataRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Pirata com ID " + id + " não encontrado"));
 
-        pirata.setNome(pirataDTO.nome());
-        pirata.setTripulacao(pirataDTO.tripulacao());
-        pirata.setRaca(pirataDTO.raca());
-        pirata.setStatus(pirataDTO.status());
+        pirata.setNome(pirataCreateDTO.nome());
+        pirata.setTripulacao(pirataCreateDTO.tripulacao());
+        pirata.setRaca(pirataCreateDTO.raca());
+        pirata.setStatus(pirataCreateDTO.status());
 
         Pirata atualizar = pirataRepository.save(pirata);
 
-        return new PirataDTO(
+        return new PirataResponseDTO(
+                atualizar.getId(),
                 atualizar.getNome(),
                 atualizar.getTripulacao(),
                 atualizar.getRaca(),
