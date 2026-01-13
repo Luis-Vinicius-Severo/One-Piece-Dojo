@@ -4,6 +4,10 @@ import dev.onepiece.Dojo.entities.Missao;
 import jakarta.validation.constraints.NotNull;
 
 public record MissaoCreateDTO(
+
+    @NotNull(message = "id do pirata precisa estar preenchido!")
+    Long pirataId,
+
     @NotNull
     Missao.Classificacao classificacao,
 
@@ -11,5 +15,5 @@ public record MissaoCreateDTO(
     Missao.TipoMissao tipoMissao,
 
     @NotNull
-    Missao.StatusMissao missao
+    Missao.StatusMissao statusMissao
 ){}
