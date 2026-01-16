@@ -3,12 +3,16 @@ package dev.onepiece.Dojo.service;
 
 import dev.onepiece.Dojo.dto.MissaoCreateDTO;
 import dev.onepiece.Dojo.dto.MissaoResponseDTO;
+import dev.onepiece.Dojo.dto.PirataResponseDTO;
 import dev.onepiece.Dojo.entities.Missao;
 import dev.onepiece.Dojo.entities.Pirata;
 import dev.onepiece.Dojo.repositories.MissaoRepository;
 import dev.onepiece.Dojo.repositories.PirataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -38,4 +42,18 @@ public class MissaoService {
                 pirata.getId()
         );
     }
+
+    public MissaoResponseDTO buscarMissaoPorId(Long id){
+        Missao missao =  missaoRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Missão com ID " + id + " não encontrada"));
+
+         return new MissaoResponseDTO(
+                    missao.getId(),
+                    missao.getClassificacao(),
+                    missao.getTipoMissao(),
+                    missao.getStatusMissao(),
+                    missao.getPirata().getId()
+                    );
+     }
 }

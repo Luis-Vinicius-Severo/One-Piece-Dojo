@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/missao")
@@ -20,10 +17,16 @@ public class MissaoController {
     private final MissaoService missaoServices;
 
     @PostMapping
-    public ResponseEntity<MissaoResponseDTO> criarMissao (
-            @RequestBody @Valid MissaoCreateDTO missaoCreateDTO){
-
+    public ResponseEntity<MissaoResponseDTO> criarMissao (@RequestBody @Valid MissaoCreateDTO missaoCreateDTO){
+        MissaoResponseDTO response = missaoServices.criarMissao(missaoCreateDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(missaoServices.criarMissao(missaoCreateDTO));
+                .body(response);
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity <MissaoResponseDTO> buscarMissaoPorId(@PathVariable Long id){
+        MissaoResponseDTO missao = missaoServices.buscarMissaoPorId(id);
+        return ResponseEntity.ok(missao);
+
     }
 }
