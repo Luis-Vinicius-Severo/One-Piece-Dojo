@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -56,4 +55,19 @@ public class MissaoService {
                     missao.getPirata().getId()
                     );
      }
-}
+
+    public List<MissaoResponseDTO> buscarTodasMissoes(){
+        return missaoRepository.findAll()
+                .stream()
+                .map(missao -> new MissaoResponseDTO(
+                        missao.getId(),
+                        missao.getClassificacao(),
+                        missao.getTipoMissao(),
+                        missao.getStatusMissao(),
+                        missao.getPirata().getId()
+                ))
+                .toList();
+    }
+    }
+
+

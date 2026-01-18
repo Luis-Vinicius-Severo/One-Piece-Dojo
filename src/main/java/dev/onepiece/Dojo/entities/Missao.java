@@ -30,7 +30,7 @@ public class Missao {
     private StatusMissao statusMissao;
 
     @ManyToOne
-    @JoinColumn(name = "pirata_id")
+    @JoinColumn(name = "pirata_id", nullable = false)
     private Pirata pirata;
 
 
