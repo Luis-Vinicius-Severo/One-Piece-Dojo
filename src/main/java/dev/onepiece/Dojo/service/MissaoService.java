@@ -3,7 +3,6 @@ package dev.onepiece.Dojo.service;
 
 import dev.onepiece.Dojo.dto.MissaoCreateDTO;
 import dev.onepiece.Dojo.dto.MissaoResponseDTO;
-import dev.onepiece.Dojo.dto.PirataResponseDTO;
 import dev.onepiece.Dojo.entities.Missao;
 import dev.onepiece.Dojo.entities.Pirata;
 import dev.onepiece.Dojo.repositories.MissaoRepository;
@@ -68,6 +67,30 @@ public class MissaoService {
                 ))
                 .toList();
     }
+
+   public MissaoResponseDTO atualizarMissao(Long id,MissaoCreateDTO missaoCreateDTO){
+       Missao missao = missaoRepository.findById(id)
+               .orElseThrow(() -> new RuntimeException("Missão com ID " + id + " não encontrado"));
+
+       Pirata pirata = pirataRepository.findById(missaoCreateDTO.pirataId())
+               .orElseThrow(() ->
+                       new RuntimeException("Pirata não encontrado"));
+
+       missao.setPirata(pirata);
+       missao.setClassificacao(missaoCreateDTO.classificacao());
+       missao.setTipoMissao(missaoCreateDTO.tipoMissao());
+       missao.setStatusMissao(missaoCreateDTO.statusMissao());
+
+       Missao atualizaMissao = missaoRepository.save(missao);
+
+       return new MissaoResponseDTO(
+               atualizaMissao.getId(),
+               atualizaMissao.getClassificacao(),
+               atualizaMissao.getTipoMissao(),
+               atualizaMissao.getStatusMissao(),
+               atualizaMissao.getPirata().getId()
+       );
     }
+}
 
 

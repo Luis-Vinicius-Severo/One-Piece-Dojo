@@ -38,5 +38,11 @@ public class MissaoController {
         List<MissaoResponseDTO> response = missaoServices.buscarTodasMissoes();
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MissaoResponseDTO> atualizarMissao(@PathVariable Long id, @RequestBody @Valid MissaoCreateDTO missaoCreateDTO) {
+        MissaoResponseDTO atualizar = missaoServices.atualizarMissao(id,missaoCreateDTO);
+        return ResponseEntity.ok(atualizar);
+    }
 }
 
