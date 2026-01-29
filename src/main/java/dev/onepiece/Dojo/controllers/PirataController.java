@@ -32,8 +32,8 @@ public class PirataController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<List<PirataResponseDTO>> buscarPiratasPorId(@PathVariable Long id){
-        var pirata = pirataService.buscarPiratasPorId(id);
+    public ResponseEntity<PirataResponseDTO> buscarPiratasPorId(@PathVariable Long id){
+        var pirata = pirataService.buscarPirataPorId(id);
         return ResponseEntity.ok(pirata);
     }
 

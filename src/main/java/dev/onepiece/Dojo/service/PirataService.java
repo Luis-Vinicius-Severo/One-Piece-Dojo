@@ -3,6 +3,7 @@ package dev.onepiece.Dojo.service;
 import dev.onepiece.Dojo.dto.PirataCreateDTO;
 import dev.onepiece.Dojo.dto.PirataResponseDTO;
 import dev.onepiece.Dojo.entities.Pirata;
+import dev.onepiece.Dojo.exceptions.PirataNaoEncontradoHandle;
 import dev.onepiece.Dojo.repositories.PirataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,17 +49,16 @@ public class PirataService {
 
     }
 
-    public List<PirataResponseDTO> buscarPiratasPorId(Long id){
-        return pirataRepository.findById(id)
-                .stream()
-                .map(pirata -> new PirataResponseDTO(
-                        pirata.getId(),
-                        pirata.getNome(),
-                        pirata.getTripulacao(),
-                        pirata.getRaca(),
-                        pirata.getStatus()
-                ))
-                .collect(Collectors.toList());
+    public PirataResponseDTO buscarPirataPorId(Long id){
+        Pirata pirata = pirataRepository.findById(id)
+                .orElseThrow(() -> new PirataNaoEncontradoHandle(id));
+        return new PirataResponseDTO(
+                pirata.getId(),
+                pirata.getNome(),
+                pirata.getTripulacao(),
+                pirata.getRaca(),
+                pirata.getStatus()
+        );
     }
 
     public List<PirataResponseDTO> buscarPirataPorRaca(Pirata.Raca raca){
@@ -76,13 +76,13 @@ public class PirataService {
 
     public void deletarPirata(Long id){
         Pirata pirata = pirataRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pirata com ID " + id + " não encontrado"));
+                .orElseThrow(() -> new PirataNaoEncontradoHandle(id));
         pirataRepository.delete(pirata);
     }
 
     public PirataResponseDTO atualizarPirata(Long id, PirataCreateDTO pirataCreateDTO){
         Pirata pirata = pirataRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Pirata com ID " + id + " não encontrado"));
+                    .orElseThrow(() -> new PirataNaoEncontradoHandle(id));
 
         pirata.setNome(pirataCreateDTO.nome());
         pirata.setTripulacao(pirataCreateDTO.tripulacao());

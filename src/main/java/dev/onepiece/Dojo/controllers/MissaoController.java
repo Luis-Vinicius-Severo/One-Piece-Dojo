@@ -2,7 +2,6 @@ package dev.onepiece.Dojo.controllers;
 
 import dev.onepiece.Dojo.dto.MissaoCreateDTO;
 import dev.onepiece.Dojo.dto.MissaoResponseDTO;
-import dev.onepiece.Dojo.entities.Missao;
 import dev.onepiece.Dojo.service.MissaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
